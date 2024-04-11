@@ -6,9 +6,9 @@ import org.springframework.http.HttpStatus;
 @Data
 public class RespostaDTO {
 
-    private HttpStatus httpStatus;
-
     private Status status;
+
+    private HttpStatus httpStatus;
 
     private String mensagem;
 
@@ -16,8 +16,8 @@ public class RespostaDTO {
     }
 
     public RespostaDTO(HttpStatus httpStatus, Status status, String mensagem) {
-        this.httpStatus = httpStatus;
         this.status = status;
+        this.httpStatus = httpStatus;
         this.mensagem = mensagem;
     }
 

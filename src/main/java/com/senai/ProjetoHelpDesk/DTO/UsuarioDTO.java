@@ -24,11 +24,4 @@ public class UsuarioDTO {
         this.email = usuario.getEmail();
     }
 
-    public RespostaDTO nomeUsuarioValido(String nome) {
-        if (nome.isEmpty()) {
-            return new RespostaDTO().erroConflict("Insira o nome para o usuário.");
-        }
-        return new RespostaDTO(RespostaDTO.Status.SUCESSO);
-    }
-
 }

@@ -1,5 +1,6 @@
 package com.senai.ProjetoHelpDesk.Models;
 
+import com.senai.ProjetoHelpDesk.DTO.TarefaDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,6 +32,14 @@ public class TarefaModel {
     private UsuarioModel usuario;
 
     public TarefaModel() {
+    }
+
+    public TarefaModel(TarefaDTO tarefa, UsuarioModel tarefaUsuario) {
+        this.nome = tarefa.getNome();
+        this.descricao = tarefa.getDescricao();
+        this.dataAgendamento = tarefa.getDataAgendamento();
+        this.status = tarefa.getStatus();
+        this.usuario = tarefaUsuario;
     }
 
     public enum Status {

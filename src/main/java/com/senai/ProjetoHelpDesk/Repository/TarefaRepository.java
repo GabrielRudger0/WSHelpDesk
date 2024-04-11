@@ -1,4 +1,7 @@
 package com.senai.ProjetoHelpDesk.Repository;
 
-public interface TarefaRepository {
+import com.senai.ProjetoHelpDesk.Models.TarefaModel;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface TarefaRepository extends JpaRepository<TarefaModel, Long> {
 }
