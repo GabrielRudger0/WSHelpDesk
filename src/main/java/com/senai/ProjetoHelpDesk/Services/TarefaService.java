@@ -56,10 +56,6 @@ public class TarefaService {
 
     private RespostaDTO tarefaValida(TarefaDTO tarefa) {
 
-        if(tarefa.getDataAgendamento().equals("")) {
-            return new RespostaDTO().erroConflict("Data deve ser hoje ou maior que hoje.");
-        }
-
         if (!nomeValido(tarefa.getNome())) {
             return new RespostaDTO().erroConflict("Insira o nome para a tarefa.");
         }
@@ -73,14 +69,12 @@ public class TarefaService {
         }
 
         if (!statusValido(tarefa.getStatus())) {
-            return new RespostaDTO().erroConflict("Insira um status para a tarefa.");
+            return new RespostaDTO().erroConflict("Insira um status válido para a tarefa.");
         }
 
         if(!emailValido(tarefa.getUsuarioEmail())) {
             return new RespostaDTO().erroConflict("Informe um email de usuário válido.");
         }
-
-
 
         return new RespostaDTO(RespostaDTO.Status.SUCESSO);
     }
@@ -98,8 +92,8 @@ public class TarefaService {
         return !data.before(Calendar.getInstance().getTime());
     }
 
-    private boolean statusValido(TarefaModel.Status status) {
-        return !TarefaModel.Status.values().equals(status);
+    private boolean statusValido(Integer status) {
+        return !(status.hashCode() > (TarefaModel.Status.values().length - 1) || status.hashCode() < 0);
     }
 
     private boolean emailValido(String email) {

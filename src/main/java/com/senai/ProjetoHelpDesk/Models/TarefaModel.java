@@ -38,7 +38,7 @@ public class TarefaModel {
         this.nome = tarefa.getNome();
         this.descricao = tarefa.getDescricao();
         this.dataAgendamento = tarefa.getDataAgendamento();
-        this.status = tarefa.getStatus();
+        this.status =  converterHashCodeStatus(tarefa.getStatus());
         this.usuario = tarefaUsuario;
     }
 
@@ -46,4 +46,12 @@ public class TarefaModel {
         PENDENTE, EM_ANDAMENTO, CANCELADO, CONCLUIDO
     }
 
+    private Status converterHashCodeStatus(Integer hashcode) {
+        for (Status status : Status.values()) {
+            if (status.hashCode() == hashcode) {
+                return status;
+            }
+        }
+        return Status.CANCELADO;
+    }
 }

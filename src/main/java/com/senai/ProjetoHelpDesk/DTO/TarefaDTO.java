@@ -1,6 +1,8 @@
 package com.senai.ProjetoHelpDesk.DTO;
 
 import com.senai.ProjetoHelpDesk.Models.TarefaModel;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.*;
 
 import java.util.Date;
@@ -16,7 +18,7 @@ public class TarefaDTO {
 
     private Date dataAgendamento;
 
-    private TarefaModel.Status status;
+    private Integer status;
 
     private String usuarioEmail;
 
