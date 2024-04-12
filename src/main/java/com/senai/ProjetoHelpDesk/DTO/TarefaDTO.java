@@ -16,7 +16,7 @@ public class TarefaDTO {
 
     private String descricao;
 
-    private Date dataAgendamento;
+    private String dataAgendamento;
 
     private Integer status;
 

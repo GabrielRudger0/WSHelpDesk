@@ -34,10 +34,10 @@ public class TarefaModel {
     public TarefaModel() {
     }
 
-    public TarefaModel(TarefaDTO tarefa, UsuarioModel tarefaUsuario) {
+    public TarefaModel(TarefaDTO tarefa, Date dataAgendamento,UsuarioModel tarefaUsuario) {
         this.nome = tarefa.getNome();
         this.descricao = tarefa.getDescricao();
-        this.dataAgendamento = tarefa.getDataAgendamento();
+        this.dataAgendamento = dataAgendamento;
         this.status =  converterHashCodeStatus(tarefa.getStatus());
         this.usuario = tarefaUsuario;
     }
