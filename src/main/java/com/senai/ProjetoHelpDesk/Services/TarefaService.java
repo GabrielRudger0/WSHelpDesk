@@ -2,6 +2,7 @@ package com.senai.ProjetoHelpDesk.Services;
 
 import com.senai.ProjetoHelpDesk.DTO.TarefaDTO;
 import com.senai.ProjetoHelpDesk.DTO.UsuarioDTO;
+import com.senai.ProjetoHelpDesk.DTO.ViewTarefaDTO;
 import com.senai.ProjetoHelpDesk.Models.TarefaModel;
 import com.senai.ProjetoHelpDesk.Models.UsuarioModel;
 import com.senai.ProjetoHelpDesk.Padroes.RespostaDTO;
@@ -10,12 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.xml.crypto.Data;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 public class TarefaService {
@@ -26,8 +25,8 @@ public class TarefaService {
     @Autowired
     UsuarioService usuarioService;
 
-    public List<TarefaDTO> obterTarefas() {
-        return new ArrayList<>();
+    public List<ViewTarefaDTO> obterTarefas() {
+        return converterLista(tarefaRepository.findAll());
     }
 
     public RespostaDTO inserirTarefa(TarefaDTO tarefa) {
@@ -102,4 +101,9 @@ public class TarefaService {
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
     }
+
+    private List<ViewTarefaDTO> converterLista(List<TarefaModel> listaTarefasModel) {
+        return listaTarefasModel.stream().map(ViewTarefaDTO::new).collect(Collectors.toList());
+    }
+
 }

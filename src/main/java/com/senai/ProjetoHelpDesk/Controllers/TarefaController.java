@@ -1,6 +1,7 @@
 package com.senai.ProjetoHelpDesk.Controllers;
 
 import com.senai.ProjetoHelpDesk.DTO.TarefaDTO;
+import com.senai.ProjetoHelpDesk.DTO.ViewTarefaDTO;
 import com.senai.ProjetoHelpDesk.Padroes.RespostaDTO;
 import com.senai.ProjetoHelpDesk.Services.TarefaService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/tarefa")
@@ -18,7 +21,12 @@ public class TarefaController {
 
     @GetMapping()
 	public ResponseEntity<Object> obterTarefas() {
-        return ResponseEntity.status(HttpStatus.OK).body(new Object());
+        List<ViewTarefaDTO> lista = tarefaService.obterTarefas();
+        if (lista.isEmpty()) {
+            RespostaDTO resposta = new RespostaDTO().erroNotFound("Lista vazia de tarefas.");
+            return ResponseEntity.status(resposta.getHttpStatus()).body(resposta);
+        }
+        return ResponseEntity.status(HttpStatus.OK).body(lista);
     }
 
     @PostMapping()

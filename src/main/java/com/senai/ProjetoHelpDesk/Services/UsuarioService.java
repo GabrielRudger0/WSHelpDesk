@@ -3,6 +3,7 @@ package com.senai.ProjetoHelpDesk.Services;
 import com.senai.ProjetoHelpDesk.DTO.UsuarioDTO;
 import com.senai.ProjetoHelpDesk.Models.UsuarioModel;
 import com.senai.ProjetoHelpDesk.Padroes.RespostaDTO;
+import com.senai.ProjetoHelpDesk.Repository.TarefaRepository;
 import com.senai.ProjetoHelpDesk.Repository.UsuarioRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class UsuarioService {
 
     @Autowired
     UsuarioRepository usuarioRepository;
+
+    @Autowired
+    TarefaRepository tarefaRepository;
 
     public List<UsuarioDTO> obterUsuarios() {
         return converterLista(usuarioRepository.findAll());
@@ -58,6 +62,12 @@ public class UsuarioService {
     public RespostaDTO excluirUsuario(String email) {
         if (!existeUsuario(email)) {
             return new RespostaDTO().erroNotFound("Usuário não encontrado.");
+        }
+
+        UsuarioModel usuario = obterUsuario(email);
+
+        if(tarefaRepository.existsByUsuario(obterUsuario(email))) {
+            return new RespostaDTO().erroConflict("Usuário vinculado em tarefas.");
         }
 
         usuarioRepository.deleteByEmail(email);
