@@ -53,12 +53,37 @@ public class TarefaService {
         return new RespostaDTO().sucesso("Tarefa inserida com sucesso.");
     }
 
-    public boolean atualizarTarefa(TarefaDTO tarefa) {
-        return true;
+    public RespostaDTO atualizarTarefa(Long tarefaId, TarefaDTO tarefa) {
+
+        RespostaDTO resposta = new RespostaDTO();
+
+        Optional<TarefaModel> tarefaBD = tarefaRepository.findById(tarefaId);
+        if (!tarefaBD.isPresent()) {
+            return resposta.erroNotFound("Tarefa não encontrada.");
+        }
+
+        UsuarioModel tarefaUsuario = usuarioService.obterUsuario(tarefa.getUsuarioEmail());
+        if (tarefaUsuario.usuarioEstaVazio()) {
+            return new RespostaDTO().erroNotFound("Usuário da tarefa não encontrado.");
+        }
+
+        resposta = tarefaValida(tarefa);
+        if ( resposta.getStatus() == RespostaDTO.Status.ERRO) {
+            return resposta;
+        }
+
+        tarefaRepository.save(new TarefaModel(tarefaId,tarefa, tarefaUsuario));
+        return resposta.sucesso("Tarefa atualizada com sucesso.");
+
     }
 
-    public boolean excluirTarefa(Long tarefaId) {
-        return true;
+    public RespostaDTO excluirTarefa(Long tarefaId) {
+        if (!tarefaRepository.existsById(tarefaId)) {
+            return new RespostaDTO().erroNotFound("Tarefa não encontrada.");
+        }
+
+        tarefaRepository.deleteById(tarefaId);
+        return new RespostaDTO().sucesso("Tarefa excluída com sucesso.");
     }
 
     private RespostaDTO tarefaValida(TarefaDTO tarefa) {

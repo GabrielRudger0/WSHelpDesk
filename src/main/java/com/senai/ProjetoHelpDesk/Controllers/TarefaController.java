@@ -36,13 +36,15 @@ public class TarefaController {
     }
 
     @PutMapping("/{id}")
-	public ResponseEntity<Object> atualizarTarefa(@PathVariable int id, @RequestBody @Validated TarefaDTO tarefa) {
-        return ResponseEntity.status(HttpStatus.OK).body(new Object());
+	public ResponseEntity<RespostaDTO> atualizarTarefa(@PathVariable Long id, @RequestBody @Validated TarefaDTO tarefa) {
+        RespostaDTO resposta = tarefaService.atualizarTarefa(id, tarefa);
+        return ResponseEntity.status(resposta.getHttpStatus()).body(resposta);
     }
 
     @DeleteMapping("/{id}")
-	public ResponseEntity<Object> excluirTarefa(@PathVariable int id) {
-        return ResponseEntity.status(HttpStatus.OK).body(new Object());
+	public ResponseEntity<RespostaDTO> excluirTarefa(@PathVariable Long id) {
+        RespostaDTO resposta = tarefaService.excluirTarefa(id);
+        return ResponseEntity.status(resposta.getHttpStatus()).body(resposta);
     }
 
 

@@ -4,6 +4,8 @@ import com.senai.ProjetoHelpDesk.DTO.TarefaDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Data
@@ -34,7 +36,16 @@ public class TarefaModel {
     public TarefaModel() {
     }
 
-    public TarefaModel(TarefaDTO tarefa, Date dataAgendamento,UsuarioModel tarefaUsuario) {
+    public TarefaModel(Long id, TarefaDTO tarefa, UsuarioModel tarefaUsuario) {
+        this.id = id;
+        this.nome = tarefa.getNome();
+        this.descricao = tarefa.getDescricao();
+        this.dataAgendamento = formatarData(tarefa.getDataAgendamento());
+        this.status = converterHashCodeStatus(tarefa.getStatus());
+        this.usuario = tarefaUsuario;
+    }
+
+    public TarefaModel(TarefaDTO tarefa, Date dataAgendamento, UsuarioModel tarefaUsuario) {
         this.nome = tarefa.getNome();
         this.descricao = tarefa.getDescricao();
         this.dataAgendamento = dataAgendamento;
@@ -48,10 +59,21 @@ public class TarefaModel {
 
     private Status converterHashCodeStatus(Integer hashcode) {
         for (Status status : Status.values()) {
-            if (status.hashCode() == hashcode) {
+            if (status.ordinal() == hashcode) {
                 return status;
             }
         }
         return Status.CANCELADO;
+    }
+
+    private Date formatarData(String stringData) {
+        SimpleDateFormat formatoddMMyyyy = new SimpleDateFormat("dd/MM/yyyy");
+
+        try {
+            return formatoddMMyyyy.parse(stringData);
+        } catch (ParseException e) {
+            return null;
+        }
+
     }
 }
